@@ -1,36 +1,51 @@
-import java.util.Scanner;
+// Version 6.0
+// Palindrome Checker App - Use Case 6
+// Check palindrome using Queue (FIFO) and Stack (LIFO)
+
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        // Original string
+        String word = "madam";
+
+        // Create Queue and Stack
+        Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
 
-        System.out.print("Enter a string: ");
-        String input = scanner.nextLine();
-
-        String original = input;
-        String reversed = "";
-
-        // Push characters into stack
-        for (int i = 0; i < input.length(); i++) {
-            stack.push(input.charAt(i));
+        // Add characters to Queue and Stack
+        for(int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            queue.add(ch);   // Enqueue
+            stack.push(ch);  // Push
         }
 
-        // Pop characters from stack to create reversed string
-        while (!stack.isEmpty()) {
-            reversed = reversed + stack.pop();
+        boolean isPalindrome = true;
+
+        // Compare dequeue (queue) with pop (stack)
+        while(!queue.isEmpty()) {
+
+            char fromQueue = queue.remove();  // Dequeue
+            char fromStack = stack.pop();     // Pop
+
+            if(fromQueue != fromStack) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        // Compare original and reversed string
-        if (original.equals(reversed)) {
-            System.out.println("The string is a Palindrome.");
-        } else {
-            System.out.println("The string is NOT a Palindrome.");
+        // Display result
+        if(isPalindrome) {
+            System.out.println("The string \"" + word + "\" is a Palindrome.");
+        }
+        else {
+            System.out.println("The string \"" + word + "\" is NOT a Palindrome.");
         }
 
-        scanner.close();
+        System.out.println("Program Finished.");
     }
 }
