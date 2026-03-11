@@ -1,44 +1,80 @@
-// Version 7.0
-// Palindrome Checker App - Use Case 7
-// Optimized palindrome check using Deque
-
-import java.util.Deque;
-import java.util.ArrayDeque;
+// Version 8.0
+// Palindrome Checker App - Use Case 8
+// Palindrome check using Singly Linked List
 
 public class PalindromeCheckerApp {
 
+    // Node class for Singly Linked List
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
     public static void main(String[] args) {
 
-        // Original string
-        String word = "racecar";
+        String word = "level";
 
-        // Create Deque
-        Deque<Character> deque = new ArrayDeque<>();
+        // Convert string to linked list
+        Node head = null;
+        Node tail = null;
 
-        // Insert characters into deque
-        for(int i = 0; i < word.length(); i++) {
-            deque.addLast(word.charAt(i));
-        }
+        for (int i = 0; i < word.length(); i++) {
+            Node newNode = new Node(word.charAt(i));
 
-        boolean isPalindrome = true;
-
-        // Compare first and last characters
-        while(deque.size() > 1) {
-
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
-
-            if(front != rear) {
-                isPalindrome = false;
-                break;
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
             }
         }
 
-        // Display result
-        if(isPalindrome) {
-            System.out.println("The string \"" + word + "\" is a Palindrome.");
+        // Find middle using fast & slow pointers
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        else {
+
+        // Reverse second half of the list
+        Node prev = null;
+        Node current = slow;
+
+        while (current != null) {
+            Node next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        // Compare first half and reversed second half
+        Node firstHalf = head;
+        Node secondHalf = prev;
+
+        boolean isPalindrome = true;
+
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data) {
+                isPalindrome = false;
+                break;
+            }
+
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+
+        // Display result
+        if (isPalindrome) {
+            System.out.println("The string \"" + word + "\" is a Palindrome.");
+        } else {
             System.out.println("The string \"" + word + "\" is NOT a Palindrome.");
         }
 
