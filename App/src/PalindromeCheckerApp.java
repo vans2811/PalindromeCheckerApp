@@ -1,42 +1,36 @@
-// Version 4.0
-// Palindrome Checker App - Use Case 4
-// Check palindrome using character array and two-pointer technique
+import java.util.Scanner;
+import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        // Original string
-        String word = "radar";
+        Scanner scanner = new Scanner(System.in);
+        Stack<Character> stack = new Stack<>();
 
-        // Convert string to character array
-        char[] characters = word.toCharArray();
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
 
-        // Two-pointer approach
-        int start = 0;
-        int end = characters.length - 1;
+        String original = input;
+        String reversed = "";
 
-        boolean isPalindrome = true;
-
-        while(start < end) {
-
-            if(characters[start] != characters[end]) {
-                isPalindrome = false;
-                break;
-            }
-
-            start++;
-            end--;
+        // Push characters into stack
+        for (int i = 0; i < input.length(); i++) {
+            stack.push(input.charAt(i));
         }
 
-        // Display result
-        if(isPalindrome) {
-            System.out.println("The string \"" + word + "\" is a Palindrome.");
-        }
-        else {
-            System.out.println("The string \"" + word + "\" is NOT a Palindrome.");
+        // Pop characters from stack to create reversed string
+        while (!stack.isEmpty()) {
+            reversed = reversed + stack.pop();
         }
 
-        System.out.println("Program Finished.");
+        // Compare original and reversed string
+        if (original.equals(reversed)) {
+            System.out.println("The string is a Palindrome.");
+        } else {
+            System.out.println("The string is NOT a Palindrome.");
+        }
+
+        scanner.close();
     }
 }
